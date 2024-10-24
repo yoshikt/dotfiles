@@ -3,5 +3,5 @@
 ## Installation
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/yoshikt/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/yoshikt/dotfiles/main/install.sh | sh
 ```
