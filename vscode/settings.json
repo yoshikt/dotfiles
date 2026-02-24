@@ -1,0 +1,38 @@
+{
+    "workbench.editor.history.maxEntries": 100,
+    "workbench.colorTheme": "Monokai Dimmed",
+    "workbench.startupEditor": "none",
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.autopep8"
+    },
+    "python.formatting.provider": "none",
+    "micropico.pythonPath": "/opt/homebrew/bin/python3",
+    "micropico.softResetAfterUpload": true,
+    "projectManager.git.baseFolders": [
+        "",
+        "/Users/f/work/repo/"
+    ],
+    "gitlens.gitCommands.skipConfirmations": [
+        "fetch:command",
+        "stash-push:command",
+        "switch:command"
+    ],
+    "git.openRepositoryInParentFolders": "never",
+    "editor.formatOnSave": true,
+    "github.copilot.advanced": {
+        "github.copilot.enableCommitMessageSuggestion": true,
+        "github.copilot.language": "ja"
+    },
+    "terminal.integrated.env.osx": {
+        "LANG": "en_US.UTF-8"
+    },
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false
+    },
+    "github.copilot.nextEditSuggestions.enabled": true,
+    "terminal.integrated.copyOnSelection": true,
+    "terminal.integrated.rightClickBehavior": "copyPaste"
+}
