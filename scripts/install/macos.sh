@@ -17,7 +17,7 @@ _setup_iterm2() {
     local source_path="${DOTFILES_DIR}/macos/iterm2/com.googlecode.iterm2.plist"
     local target_path="${HOME}/.config/iterm2/com.googlecode.iterm2.plist"
     local prefs_folder="${DOTFILES_DIR}/macos/iterm2"
-    local log_dir="${HOME}/terminallogs"
+    local log_dir="${HOME}/.local/state/terminallogs"
     local current_prefs_folder
     local current_load_custom
 
