@@ -4,6 +4,7 @@ set -euo pipefail
 
 DOTFILES_REPO_URL="https://github.com/yoshikt/dotfiles.git"
 DOTFILES_DIR="${HOME}/dotfiles"
+DOTFILES_REPO_BRANCH="main"
 
 log(){ printf '[dotfiles] %s\n' "$*"; }
 
@@ -28,9 +29,20 @@ detect_platform() {
     esac
 }
 
-# リポジトリがなければ clone、git 管理外のディレクトリなら中断
+# リポジトリがなければ clone、既存 repo は fast-forward で最新化
 ensure_dotfiles_repo() {
     if [ -d "${DOTFILES_DIR}/.git" ]; then
+        if [ -n "$(git -C "${DOTFILES_DIR}" status --porcelain)" ]; then
+            log "Local changes detected in ${DOTFILES_DIR}. Please commit/stash, then rerun install.sh."
+            exit 1
+        fi
+
+        log "Updating dotfiles in ${DOTFILES_DIR}"
+        if ! git -C "${DOTFILES_DIR}" pull --ff-only origin "${DOTFILES_REPO_BRANCH}"; then
+            log "Failed to fast-forward ${DOTFILES_DIR}. Resolve git state manually, then rerun install.sh."
+            exit 1
+        fi
+
         return
     fi
 
@@ -40,7 +52,7 @@ ensure_dotfiles_repo() {
     fi
 
     log "Cloning dotfiles into ${DOTFILES_DIR}"
-    git clone "${DOTFILES_REPO_URL}" "${DOTFILES_DIR}"
+    git clone --branch "${DOTFILES_REPO_BRANCH}" "${DOTFILES_REPO_URL}" "${DOTFILES_DIR}"
 }
 
 # ファイルを symlink へ切り替える
