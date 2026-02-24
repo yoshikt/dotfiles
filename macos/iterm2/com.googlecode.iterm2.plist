@@ -1340,7 +1340,7 @@ Move Session to Tab</string>
 				<real>0.19802422821521759</real>
 			</dict>
 			<key>Log Directory</key>
-			<string>/var/log/terminallogs</string>
+			<string>\(homeDirectory)/terminallogs</string>
 			<key>Log Filename Format</key>
 			<string>\(creationTimeString).\(profileName).\(termid).\(iterm2.pid).\(autoLogId).log</string>
 			<key>Match Background Color</key>
@@ -2857,7 +2857,7 @@ Move Session to Tab</string>
 				<real>0.19802422821521759</real>
 			</dict>
 			<key>Log Directory</key>
-			<string>/var/log/terminallogs</string>
+			<string>\(homeDirectory)/terminallogs</string>
 			<key>Log Filename Format</key>
 			<string>\(creationTimeString).\(profileName).\(termid).\(iterm2.pid).\(autoLogId).log</string>
 			<key>Match Background Color</key>

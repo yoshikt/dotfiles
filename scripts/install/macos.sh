@@ -17,6 +17,7 @@ _setup_iterm2() {
     local source_path="${DOTFILES_DIR}/macos/iterm2/com.googlecode.iterm2.plist"
     local target_path="${HOME}/.config/iterm2/com.googlecode.iterm2.plist"
     local prefs_folder="${DOTFILES_DIR}/macos/iterm2"
+    local log_dir="${HOME}/terminallogs"
     local current_prefs_folder
     local current_load_custom
 
@@ -30,6 +31,7 @@ _setup_iterm2() {
         brew install --cask iterm2
     fi
 
+    mkdir -p "${log_dir}"
     link_file "${source_path}" "${target_path}"
 
     current_prefs_folder="$(/usr/bin/defaults read com.googlecode.iterm2 PrefsCustomFolder 2>/dev/null || true)"
