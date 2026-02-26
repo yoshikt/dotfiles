@@ -7,16 +7,19 @@ DOTFILES_DIR="${HOME}/dotfiles"
 DOTFILES_REPO_BRANCH="main"
 
 if [ -t 1 ] && [ -z "${NO_COLOR:-}" ]; then
+    SUCCESS_COLOR=$'\033[0;32m'
     WARN_COLOR=$'\033[0;33m'
     ERROR_COLOR=$'\033[0;31m'
     COLOR_RESET=$'\033[0m'
 else
+    SUCCESS_COLOR=''
     WARN_COLOR=''
     ERROR_COLOR=''
     COLOR_RESET=''
 fi
 
 log(){ printf '[dotfiles] %s\n' "$*"; }
+success(){ printf '%s%s%s\n' "${SUCCESS_COLOR}" "$*" "${COLOR_RESET}"; }
 warn(){ printf '%s%s%s\n' "${WARN_COLOR}" "$*" "${COLOR_RESET}" >&2; }
 error(){ printf '%s%s%s\n' "${ERROR_COLOR}" "$*" "${COLOR_RESET}" >&2; }
 die(){ error "$*"; exit 1; }
@@ -76,7 +79,7 @@ link_file() {
     if [ -L "${target_path}" ]; then
         current_target="$(readlink "${target_path}")"
         if [ "${current_target}" = "${source_path}" ]; then
-            log "Already linked: ${target_path}"
+            success "Already linked: ${target_path}"
             return
         fi
         error "Conflict: ${target_path} is linked to ${current_target}"
@@ -87,7 +90,7 @@ link_file() {
     fi
 
     ln -s "${source_path}" "${target_path}"
-    log "Linked ${target_path} -> ${source_path}"
+    success "Linked ${target_path} -> ${source_path}"
 }
 
 main() {

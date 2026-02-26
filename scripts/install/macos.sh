@@ -52,13 +52,13 @@ _apply_iterm2_settings() {
     current_prefs_folder="$(/usr/bin/defaults read com.googlecode.iterm2 PrefsCustomFolder 2>/dev/null || true)"
     if [ "${current_prefs_folder}" != "${prefs_folder}" ]; then
         /usr/bin/defaults write com.googlecode.iterm2 PrefsCustomFolder -string "${prefs_folder}"
-        log "Set iTerm2 PrefsCustomFolder: ${prefs_folder}"
+        success "Set iTerm2 PrefsCustomFolder: ${prefs_folder}"
     fi
 
     current_load_custom="$(/usr/bin/defaults read com.googlecode.iterm2 LoadPrefsFromCustomFolder 2>/dev/null || true)"
     if [ "${current_load_custom}" != "1" ]; then
         /usr/bin/defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
-        log 'Enabled iTerm2 LoadPrefsFromCustomFolder'
+        success 'Enabled iTerm2 LoadPrefsFromCustomFolder'
     fi
 
     log 'iTerm2 settings setup completed.'
