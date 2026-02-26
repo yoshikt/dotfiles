@@ -1,3 +1,4 @@
+brew "bash"
 cask "iterm2"
 cask "google-japanese-ime"
 cask "karabiner-elements"

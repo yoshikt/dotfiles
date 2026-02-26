@@ -106,6 +106,44 @@ _warn_if_karabiner_missing() {
     fi
 }
 
+_apply_login_shell() {
+    local target_shell="/opt/homebrew/bin/bash"
+    local current_shell
+    local user_name
+
+    if [ ! -x "${target_shell}" ]; then
+        warn "${target_shell} is not installed. Run packages phase first to install Homebrew bash."
+        return
+    fi
+
+    user_name="$(id -un)"
+    current_shell="$(dscl . -read "/Users/${user_name}" UserShell 2>/dev/null | awk '{print $2}')"
+    if [ -z "${current_shell}" ]; then
+        current_shell="${SHELL:-}"
+    fi
+
+    if [ "${current_shell}" = "${target_shell}" ]; then
+        return
+    fi
+
+    if ! /usr/bin/grep -qxF "${target_shell}" /etc/shells; then
+        log "Adding ${target_shell} to /etc/shells (sudo required)..."
+        if ! printf '%s\n' "${target_shell}" | sudo tee -a /etc/shells >/dev/null; then
+            warn "Failed to add ${target_shell} to /etc/shells. Run manually, then rerun install.sh."
+            return
+        fi
+        success "Added ${target_shell} to /etc/shells"
+    fi
+
+    log "Changing login shell to ${target_shell}..."
+    if ! chsh -s "${target_shell}"; then
+        warn "Failed to change login shell to ${target_shell}. Run manually: chsh -s ${target_shell}"
+        return
+    fi
+
+    success "Set login shell: ${target_shell}"
+}
+
 _apply_macos_defaults() {
     local defaults_script_path="${DOTFILES_DIR}/scripts/install/macos_defaults.sh"
 
@@ -128,6 +166,7 @@ setup_macos_settings() {
     _warn_if_karabiner_missing
     _apply_iterm2_settings
     _apply_karabiner_settings
+    _apply_login_shell
     _apply_macos_defaults
 }
 
