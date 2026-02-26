@@ -17,8 +17,8 @@ else
 fi
 
 log(){ printf '[dotfiles] %s\n' "$*"; }
-warn(){ printf '%s[!]%s %s\n' "${WARN_COLOR}" "${COLOR_RESET}" "$*" >&2; }
-error(){ printf '%s[x]%s %s\n' "${ERROR_COLOR}" "${COLOR_RESET}" "$*" >&2; }
+warn(){ printf '%s%s%s\n' "${WARN_COLOR}" "$*" "${COLOR_RESET}" >&2; }
+error(){ printf '%s%s%s\n' "${ERROR_COLOR}" "$*" "${COLOR_RESET}" >&2; }
 die(){ error "$*"; exit 1; }
 
 has_command() { command -v "$1" >/dev/null 2>&1; }
