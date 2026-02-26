@@ -106,6 +106,18 @@ _warn_if_karabiner_missing() {
     fi
 }
 
+_apply_macos_defaults() {
+    local defaults_script_path="${DOTFILES_DIR}/scripts/install/macos_defaults.sh"
+
+    if [ ! -f "${defaults_script_path}" ]; then
+        die "Missing script: ${defaults_script_path}"
+    fi
+
+    # shellcheck source=/dev/null
+    source "${defaults_script_path}"
+    apply_macos_defaults
+}
+
 setup_macos_packages() {
     _install_homebrew
     _apply_brew_bundle
@@ -116,6 +128,7 @@ setup_macos_settings() {
     _warn_if_karabiner_missing
     _apply_iterm2_settings
     _apply_karabiner_settings
+    _apply_macos_defaults
 }
 
 setup_macos() {
