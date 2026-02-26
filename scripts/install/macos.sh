@@ -62,6 +62,19 @@ _apply_iterm2_settings() {
     log 'iTerm2 settings setup completed.'
 }
 
+_apply_karabiner_settings() {
+    local source_path="${DOTFILES_DIR}/macos/karabiner/karabiner.json"
+    local target_path="${HOME}/.config/karabiner/karabiner.json"
+
+    if [ ! -f "${source_path}" ]; then
+        log "Missing source file: ${source_path}"
+        exit 1
+    fi
+
+    link_file "${source_path}" "${target_path}"
+    log 'Karabiner settings setup completed.'
+}
+
 _warn_if_iterm2_missing() {
     if has_command brew; then
         if brew list --cask iterm2 >/dev/null 2>&1; then
@@ -77,6 +90,21 @@ _warn_if_iterm2_missing() {
     fi
 }
 
+_warn_if_karabiner_missing() {
+    if has_command brew; then
+        if brew list --cask karabiner-elements >/dev/null 2>&1; then
+            return
+        fi
+
+        log 'Warning: Karabiner-Elements (cask "karabiner-elements") is not installed via Homebrew. Continuing settings phase.'
+        return
+    fi
+
+    if [ ! -d "/Applications/Karabiner-Elements.app" ]; then
+        log 'Warning: Karabiner-Elements is not installed. Continuing settings phase.'
+    fi
+}
+
 setup_macos_packages() {
     _install_homebrew
     _apply_brew_bundle
@@ -84,7 +112,9 @@ setup_macos_packages() {
 
 setup_macos_settings() {
     _warn_if_iterm2_missing
+    _warn_if_karabiner_missing
     _apply_iterm2_settings
+    _apply_karabiner_settings
 }
 
 setup_macos() {
