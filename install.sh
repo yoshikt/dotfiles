@@ -79,7 +79,7 @@ link_file() {
     if [ -L "${target_path}" ]; then
         current_target="$(readlink "${target_path}")"
         if [ "${current_target}" = "${source_path}" ]; then
-            success "Already linked: ${target_path}"
+            log "Already linked: ${target_path}"
             return
         fi
         error "Conflict: ${target_path} is linked to ${current_target}"
