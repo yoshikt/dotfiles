@@ -82,11 +82,11 @@ link_file() {
             log "Already linked: ${target_path}"
             return
         fi
-        error "Conflict: ${target_path} is linked to ${current_target}"
-        die 'Resolve it manually, then rerun install.sh.'
+        error "Conflict: ${target_path} is linked to ${current_target} (expected: ${source_path})"
+        die "Remove or relink ${target_path}, then rerun install.sh. e.g. rm \"${target_path}\""
     elif [ -e "${target_path}" ]; then
         error "Conflict: ${target_path} already exists"
-        die 'Resolve it manually, then rerun install.sh.'
+        die "Remove or move ${target_path}, then rerun install.sh. e.g. mv \"${target_path}\" \"${target_path}.bak\""
     fi
 
     ln -s "${source_path}" "${target_path}"

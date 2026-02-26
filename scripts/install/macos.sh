@@ -76,6 +76,26 @@ _apply_karabiner_settings() {
     log 'Karabiner settings setup completed.'
 }
 
+_apply_shell_settings() {
+    local source_bash_profile="${DOTFILES_DIR}/shell/.bash_profile"
+    local source_bashrc="${DOTFILES_DIR}/shell/.bashrc"
+    local target_bash_profile="${HOME}/.bash_profile"
+    local target_bashrc="${HOME}/.bashrc"
+
+    if [ ! -f "${source_bash_profile}" ]; then
+        die "Missing source file: ${source_bash_profile}"
+    fi
+
+    if [ ! -f "${source_bashrc}" ]; then
+        die "Missing source file: ${source_bashrc}"
+    fi
+
+    link_file "${source_bash_profile}" "${target_bash_profile}"
+    link_file "${source_bashrc}" "${target_bashrc}"
+
+    log 'Shell settings setup completed.'
+}
+
 _warn_if_iterm2_missing() {
     if has_command brew; then
         if brew list --cask iterm2 >/dev/null 2>&1; then
@@ -166,6 +186,7 @@ setup_macos_settings() {
     _warn_if_karabiner_missing
     _apply_iterm2_settings
     _apply_karabiner_settings
+    _apply_shell_settings
     _apply_login_shell
     _apply_macos_defaults
 }

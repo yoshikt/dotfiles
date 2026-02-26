@@ -1,0 +1,19 @@
+# shellcheck shell=sh
+
+# Common settings shared by bash/zsh.
+# This file is intended to be sourced.
+
+# Avoid loading twice in the same shell session.
+if [ -n "${_COMMON_SHRC_LOADED:-}" ]; then
+  return 0
+fi
+_COMMON_SHRC_LOADED=1
+
+# Common aliases.
+alias ls='ls --color=auto'
+alias mkpasswd='pwgen'
+alias onsleep='sudo pmset -a disablesleep 0'
+alias offsleep='sudo pmset -a disablesleep 1'
+
+# Common defaults.
+umask 022
