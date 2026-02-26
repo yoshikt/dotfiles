@@ -4,7 +4,9 @@ _install_homebrew() {
     fi
 
     log 'Homebrew not found. Installing Homebrew...'
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    if ! /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; then
+        die 'Failed to install Homebrew.'
+    fi
 
     if [ -x /opt/homebrew/bin/brew ]; then
         export PATH="/opt/homebrew/bin:${PATH}"
@@ -17,8 +19,7 @@ _apply_brew_bundle() {
     local brewfile_path="${DOTFILES_DIR}/macos/Brewfile"
 
     if [ ! -f "${brewfile_path}" ]; then
-        log "Missing Brewfile: ${brewfile_path}"
-        exit 1
+        die "Missing Brewfile: ${brewfile_path}"
     fi
 
     log "Checking Brewfile: ${brewfile_path}"
@@ -28,7 +29,9 @@ _apply_brew_bundle() {
     fi
 
     log 'Installing packages from Brewfile...'
-    brew bundle --file "${brewfile_path}"
+    if ! brew bundle --file "${brewfile_path}"; then
+        die 'brew bundle failed.'
+    fi
 }
 
 _apply_iterm2_settings() {
@@ -40,8 +43,7 @@ _apply_iterm2_settings() {
     local current_load_custom
 
     if [ ! -f "${source_path}" ]; then
-        log "Missing source file: ${source_path}"
-        exit 1
+        die "Missing source file: ${source_path}"
     fi
 
     mkdir -p "${log_dir}"
@@ -67,8 +69,7 @@ _apply_karabiner_settings() {
     local target_path="${HOME}/.config/karabiner/karabiner.json"
 
     if [ ! -f "${source_path}" ]; then
-        log "Missing source file: ${source_path}"
-        exit 1
+        die "Missing source file: ${source_path}"
     fi
 
     link_file "${source_path}" "${target_path}"
@@ -81,12 +82,12 @@ _warn_if_iterm2_missing() {
             return
         fi
 
-        log 'Warning: iTerm2 (cask "iterm2") is not installed via Homebrew. Continuing settings phase.'
+        warn 'iTerm2 (cask "iterm2") is not installed via Homebrew. Continuing settings phase.'
         return
     fi
 
     if [ ! -d "/Applications/iTerm.app" ]; then
-        log 'Warning: iTerm2 is not installed. Continuing settings phase.'
+        warn 'iTerm2 is not installed. Continuing settings phase.'
     fi
 }
 
@@ -96,12 +97,12 @@ _warn_if_karabiner_missing() {
             return
         fi
 
-        log 'Warning: Karabiner-Elements (cask "karabiner-elements") is not installed via Homebrew. Continuing settings phase.'
+        warn 'Karabiner-Elements (cask "karabiner-elements") is not installed via Homebrew. Continuing settings phase.'
         return
     fi
 
     if [ ! -d "/Applications/Karabiner-Elements.app" ]; then
-        log 'Warning: Karabiner-Elements is not installed. Continuing settings phase.'
+        warn 'Karabiner-Elements is not installed. Continuing settings phase.'
     fi
 }
 
@@ -132,9 +133,7 @@ setup_macos() {
             setup_macos_settings
             ;;
         *)
-            log "Invalid DOTFILES_MACOS_PHASE: ${phase}"
-            log 'Use one of: all, packages, settings'
-            exit 1
+            die "Invalid DOTFILES_MACOS_PHASE: ${phase}. Use one of: all, packages, settings"
             ;;
     esac
 }
