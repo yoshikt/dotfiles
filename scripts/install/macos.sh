@@ -96,6 +96,18 @@ _apply_shell_settings() {
     log 'Shell settings setup completed.'
 }
 
+_apply_vscode_settings() {
+    local vscode_script_path="${DOTFILES_DIR}/scripts/install/vscode.sh"
+
+    if [ ! -f "${vscode_script_path}" ]; then
+        die "Missing script: ${vscode_script_path}"
+    fi
+
+    # shellcheck source=/dev/null
+    source "${vscode_script_path}"
+    setup_vscode
+}
+
 _warn_if_iterm2_missing() {
     if has_command brew; then
         if brew list --cask iterm2 >/dev/null 2>&1; then
@@ -187,6 +199,7 @@ setup_macos_settings() {
     _apply_iterm2_settings
     _apply_karabiner_settings
     _apply_shell_settings
+    _apply_vscode_settings
     _apply_login_shell
     _apply_macos_defaults
 }
