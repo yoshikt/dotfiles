@@ -138,6 +138,18 @@ _warn_if_karabiner_missing() {
     fi
 }
 
+_warn_if_vscode_missing() {
+    if has_command brew; then
+        if brew list --cask visual-studio-code >/dev/null 2>&1; then
+            return
+        fi
+    fi
+
+    if [ ! -d "/Applications/Visual Studio Code.app" ]; then
+        warn 'Visual Studio Code is not installed. Continuing settings phase.'
+    fi
+}
+
 _apply_login_shell() {
     local target_shell="/opt/homebrew/bin/bash"
     local current_shell
@@ -196,6 +208,7 @@ setup_macos_packages() {
 setup_macos_settings() {
     _warn_if_iterm2_missing
     _warn_if_karabiner_missing
+    _warn_if_vscode_missing
     _apply_iterm2_settings
     _apply_karabiner_settings
     _apply_shell_settings

@@ -2,6 +2,8 @@
 
 このディレクトリでは、VS Code User 設定のうち次を dotfiles 管理する。
 
+VS Code 本体は `macos/Brewfile` の `visual-studio-code` cask で導入する。
+
 - `settings/{private,work}.json`
 - `keybindings/common.json`
 - User snippets
