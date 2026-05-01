@@ -4,7 +4,7 @@
 
 VS Code 本体は `macos/Brewfile` の `visual-studio-code` cask で導入する。
 
-- `settings/{private,work}.json`
+- `settings/common.json`
 - `keybindings/common.json`
 - User snippets
 - 拡張機能の install manifest
@@ -12,6 +12,8 @@ VS Code 本体は `macos/Brewfile` の `visual-studio-code` cask で導入する
 ## Role
 
 セットアップ時は machine role を `private` または `work` として解決する。
+
+settings は role で分けず `settings/common.json` を使う。role は snippets と extensions の layer 選択に使う。
 
 優先順は次の通り。
 
@@ -39,7 +41,7 @@ VS Code User directory は macOS では `~/Library/Application Support/Code/User
 
 セットアップでは次を symlink する。
 
-- `settings/{role}.json` -> `settings.json`
+- `settings/common.json` -> `settings.json`
 - `keybindings/common.json` -> `keybindings.json`
 
 反映先に dotfiles 管理外の既存ファイルがある場合は、自動上書きしない。セットアップは停止し、手動で退避または削除してから再実行する。

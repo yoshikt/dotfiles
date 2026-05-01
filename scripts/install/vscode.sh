@@ -73,9 +73,8 @@ _link_vscode_user_file() {
 }
 
 _apply_vscode_user_settings() {
-    local role="$1"
-    local user_dir="$2"
-    local source_path="${DOTFILES_DIR}/vscode/settings/${role}.json"
+    local user_dir="$1"
+    local source_path="${DOTFILES_DIR}/vscode/settings/common.json"
     local target_path="${user_dir}/settings.json"
 
     if [[ ! -f "${source_path}" ]]; then
@@ -212,8 +211,8 @@ setup_vscode() {
     role="${DOTFILES_RESOLVED_VSCODE_ROLE}"
     user_dir="$(_vscode_user_dir)"
 
-    log "Applying VS Code settings for role: ${role}"
-    _apply_vscode_user_settings "${role}" "${user_dir}"
+    log "Applying VS Code configuration for role: ${role}"
+    _apply_vscode_user_settings "${user_dir}"
     _apply_vscode_keybindings "${user_dir}"
     _apply_vscode_snippets "${role}" "${user_dir}"
     _apply_vscode_extensions "${role}"
