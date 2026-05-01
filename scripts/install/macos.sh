@@ -195,6 +195,8 @@ _apply_macos_defaults() {
         die "Missing script: ${defaults_script_path}"
     fi
 
+    log 'Applying macOS defaults...'
+
     # shellcheck source=/dev/null
     source "${defaults_script_path}"
     apply_macos_defaults
