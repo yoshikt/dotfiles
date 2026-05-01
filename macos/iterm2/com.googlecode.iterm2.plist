@@ -4,8 +4,12 @@
 <dict>
 	<key>AdjustWindowForFontSizeChange</key>
 	<false/>
+	<key>ConvertDosNewlines</key>
+	<true/>
 	<key>Default Bookmark Guid</key>
 	<string>1EEAFDE3-BA42-46BF-B1F0-D56651065797</string>
+	<key>EscapeShellCharsWithBackslash</key>
+	<false/>
 	<key>GlobalKeyMap</key>
 	<dict>
 		<key>0x51-0x60000-0xc</key>
@@ -1340,7 +1344,7 @@ Move Session to Tab</string>
 				<real>0.19802422821521759</real>
 			</dict>
 			<key>Log Directory</key>
-			<string>\(homeDirectory)/.local/state/terminallogs</string>
+			<string>\(homeDirectory)/.local/state/iterm2/logs</string>
 			<key>Log Filename Format</key>
 			<string>\(creationTimeString).\(profileName).\(termid).\(iterm2.pid).\(autoLogId).log</string>
 			<key>Match Background Color</key>
@@ -2857,7 +2861,7 @@ Move Session to Tab</string>
 				<real>0.19802422821521759</real>
 			</dict>
 			<key>Log Directory</key>
-			<string>\(homeDirectory)/.local/state/terminallogs</string>
+			<string>\(homeDirectory)/.local/state/iterm2/logs</string>
 			<key>Log Filename Format</key>
 			<string>\(creationTimeString).\(profileName).\(termid).\(iterm2.pid).\(autoLogId).log</string>
 			<key>Match Background Color</key>
