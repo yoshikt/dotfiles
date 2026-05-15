@@ -2,23 +2,25 @@
 
 ## Installation
 
-初回実行時は VS Code role を指定する。
+初回実行時は VS Code role を指定する。端末に合わせて次のどちらかをそのまま実行する。
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/yoshikt/dotfiles/main/install.sh | DOTFILES_VSCODE_ROLE=work bash
 ```
 
-private 端末では `work` を `private` に置き換える。
+```sh
+curl -fsSL https://raw.githubusercontent.com/yoshikt/dotfiles/main/install.sh | DOTFILES_VSCODE_ROLE=private bash
+```
 
-既に clone 済みの場合は、local role file を作ってから再実行できる。
+初回に `DOTFILES_VSCODE_ROLE` を渡すと、installer が `~/dotfiles/vscode/local/role` を自動作成する。
+2 回目以降は次だけでよい。
 
 ```sh
-mkdir -p ~/dotfiles/vscode/local
-printf 'work\n' > ~/dotfiles/vscode/local/role
 bash ~/dotfiles/install.sh
 ```
 
-`vscode/local/role` を作っておけば、以後は毎回 `DOTFILES_VSCODE_ROLE` を指定しなくてよい。
+`DOTFILES_VSCODE_ROLE` も `vscode/local/role` もない状態で実行した場合は停止する。
+保存済み role と別の `DOTFILES_VSCODE_ROLE` を渡した場合も停止する。role を切り替えたいときは、`~/dotfiles/vscode/local/role` を削除してから希望する role で再実行する。
 
 VS Code User 設定の既存ファイルは自動上書きしない。初回移行時は [vscode/README.md](vscode/README.md) を参照する。
 

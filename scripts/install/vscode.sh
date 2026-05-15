@@ -11,24 +11,59 @@ _validate_vscode_role() {
     esac
 }
 
+_persist_vscode_role() {
+    local role="$1"
+    local role_file="${DOTFILES_DIR}/vscode/local/role"
+
+    mkdir -p "$(dirname "${role_file}")"
+
+    if [[ -f "${role_file}" ]] && [[ "$(tr -d '\r' <"${role_file}")" == "${role}" ]]; then
+        return
+    fi
+
+    printf '%s\n' "${role}" >"${role_file}"
+    log "Saved VS Code role to ${role_file}"
+}
+
+_read_vscode_role_file() {
+    local role_file="$1"
+
+    if [[ ! -f "${role_file}" ]]; then
+        return
+    fi
+
+    awk 'NF && $1 !~ /^#/ { print $1; exit }' "${role_file}"
+}
+
 _resolve_vscode_role() {
     local role_file="${DOTFILES_DIR}/vscode/local/role"
     local role=''
+    local saved_role=''
+
+    if [[ -f "${role_file}" ]]; then
+        saved_role="$(_read_vscode_role_file "${role_file}")"
+    fi
 
     if [[ -n "${DOTFILES_VSCODE_ROLE:-}" ]]; then
         role="${DOTFILES_VSCODE_ROLE}"
         _validate_vscode_role "${role}"
+
+        if [[ -n "${saved_role}" ]]; then
+            _validate_vscode_role "${saved_role}"
+            if [[ "${saved_role}" != "${role}" ]]; then
+                die "VS Code role mismatch: ${role_file} contains '${saved_role}', but DOTFILES_VSCODE_ROLE is '${role}'. Remove ${role_file} to switch roles intentionally."
+            fi
+        fi
+
+        _persist_vscode_role "${role}"
         DOTFILES_RESOLVED_VSCODE_ROLE="${role}"
         return
     fi
 
-    if [[ -f "${role_file}" ]]; then
-        role="$(awk 'NF && $1 !~ /^#/ { print $1; exit }' "${role_file}")"
-        if [[ -n "${role}" ]]; then
-            _validate_vscode_role "${role}"
-            DOTFILES_RESOLVED_VSCODE_ROLE="${role}"
+    if [[ -n "${saved_role}" ]]; then
+            _validate_vscode_role "${saved_role}"
+            DOTFILES_RESOLVED_VSCODE_ROLE="${saved_role}"
             return
-        fi
     fi
 
     die "Set DOTFILES_VSCODE_ROLE=private|work or create ${role_file}."

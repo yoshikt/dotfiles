@@ -20,19 +20,53 @@ settings は role で分けず `settings/common.json` を使う。role は snipp
 1. `DOTFILES_VSCODE_ROLE`
 2. `vscode/local/role`
 
+`DOTFILES_VSCODE_ROLE` を指定して実行した場合は、その値を `vscode/local/role` に保存する。
+保存済み role と別の `DOTFILES_VSCODE_ROLE` を渡した場合も、意図しない混在を防ぐためセットアップは停止する。
 どちらもない場合、セットアップは停止する。
 
-例:
+初回セットアップ例:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/yoshikt/dotfiles/main/install.sh | DOTFILES_VSCODE_ROLE=work bash
+```
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/yoshikt/dotfiles/main/install.sh | DOTFILES_VSCODE_ROLE=private bash
+```
+
+clone 済み repo で保存済み role と同じ role を明示したい場合は、次のどちらかで再実行する。
 
 ```sh
 DOTFILES_VSCODE_ROLE=private bash ~/dotfiles/install.sh
 ```
 
-または Git 管理しない local file として次を作る。
+```sh
+DOTFILES_VSCODE_ROLE=work bash ~/dotfiles/install.sh
+```
+
+role を意図的に切り替えたい場合は、保存済み role file を削除してから希望する role で再実行する。
+
+```sh
+rm ~/dotfiles/vscode/local/role
+DOTFILES_VSCODE_ROLE=private bash ~/dotfiles/install.sh
+```
+
+```sh
+rm ~/dotfiles/vscode/local/role
+DOTFILES_VSCODE_ROLE=work bash ~/dotfiles/install.sh
+```
+
+手動で Git 管理しない local file を置く場合は次でもよい。
 
 ```sh
 mkdir -p ~/dotfiles/vscode/local
 printf 'private\n' > ~/dotfiles/vscode/local/role
+```
+
+role が保存済みなら、2 回目以降は次だけでよい。
+
+```sh
+bash ~/dotfiles/install.sh
 ```
 
 ## User Files
