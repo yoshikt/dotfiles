@@ -29,6 +29,7 @@ _apply_brew_bundle() {
     fi
 
     log 'Installing packages from Brewfile...'
+    log 'brew bundle may prompt for your macOS password when casks or input methods need to write to system locations.'
     if ! brew bundle --file "${brewfile_path}"; then
         die 'brew bundle failed.'
     fi
